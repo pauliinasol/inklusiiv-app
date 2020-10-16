@@ -1,66 +1,84 @@
-const fs = require("fs");
+const Card = require("./../models/cardModel");
 
-const cards = JSON.parse(fs.readFileSync(`${__dirname}/../data/cards.json`));
+const getAllCards = async (req, res) => {
+  try {
+    const cards = await Card.find();
 
-const getAllCards = (req, res) => {
-  res.status(200).json({
-    status: "success",
-    results: cards.length,
-    requestedAt: req.requestTime,
-    data: {
-      cards,
-    },
-  });
-};
-
-const getCard = (req, res) => {
-  const id = req.params.id * 1;
-  const card = cards.find((x) => x.id === id);
-
-  if (!card) {
-    return res.status(404).json({
+    res.status(200).json({
+      status: "success",
+      results: cards.length,
+      data: {
+        cards,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
       status: "fail",
-      message: "Invalid ID",
+      message: "Error",
     });
   }
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      card,
-    },
-  });
 };
 
-const createCard = (req, res) => {
-  const newId = cards[cards.length - 1].id + 1;
+const getCard = async (req, res) => {
+  try {
+    const card = await Tour.findById(req.params.id);
+  } catch (err) {
+    // if (!card) {
+    //   return res.status(404).json({
+    //     status: "fail",
+    //     message: "Invalid ID",
+    //   });
+    // }
 
-  const newCard = Object.assign({ id: newId }, req.body);
-  cards.push(newCard);
+    // res.status(200).json({
+    //   status: "success",
+    //   data: {
+    //     card,
+    //   },
+    // });
+    console.log(err);
+  }
+};
 
-  fs.writeFile(`${__dirname}/data/cards.json`, JSON.stringify(cards), (err) => {
-    res.status(201).json({ status: "success", data: { cards: newCard } });
-  });
+const createCard = async (req, res) => {
+  console.log(req.body);
+  try {
+    const newCard = await Card.create(req.body);
+    // const newCard = new Card(req.body);
+    // newCard.save();
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        card: newCard,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: "Hello world",
+    });
+  }
 };
 
 const updateCard = (req, res) => {
-  if (req.params.id * 1 > cards.length)
-    res.status(200).json({
-      status: "fail",
-      message: "Invalid Id",
-    });
+  // if (req.params.id * 1 > cards.length)
+  res.status(200).json({
+    status: "fail",
+    message: "Invalid Id",
+  });
 };
 
 const deleteCard = (req, res) => {
   const id = req.params.id * 1;
-  const card = cards.find((x) => x.id === id);
+  // const card = cards.find((x) => x.id === id);
 
-  if (!card) {
-    return res.status(404).json({
-      status: "fail",
-      message: "Invalid ID",
-    });
-  }
+  // if (!card) {
+  //   return res.status(404).json({
+  //     status: "fail",
+  //     message: "Invalid ID",
+  //   });
+  // }
 
   res.status(200).json({
     status: "success",
