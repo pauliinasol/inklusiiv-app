@@ -21,22 +21,20 @@ const getAllCards = async (req, res) => {
 
 const getCard = async (req, res) => {
   try {
-    const card = await Tour.findById(req.params.id);
-  } catch (err) {
-    // if (!card) {
-    //   return res.status(404).json({
-    //     status: "fail",
-    //     message: "Invalid ID",
-    //   });
-    // }
+    const card = await Card.findById(req.params.id);
+    // Card.findOne({ _id: req.params.id })
 
-    // res.status(200).json({
-    //   status: "success",
-    //   data: {
-    //     card,
-    //   },
-    // });
-    console.log(err);
+    res.status(200).json({
+      status: "success",
+      data: {
+        card,
+      },
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: "fail",
+      message: err,
+    });
   }
 };
 
@@ -61,30 +59,41 @@ const createCard = async (req, res) => {
   }
 };
 
-const updateCard = (req, res) => {
-  // if (req.params.id * 1 > cards.length)
-  res.status(200).json({
-    status: "fail",
-    message: "Invalid Id",
-  });
+const updateCard = async (req, res) => {
+  try {
+    const card = await Card.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.status(200).json({
+      status: "success",
+      data: {
+        card,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
 };
 
-const deleteCard = (req, res) => {
-  const id = req.params.id * 1;
-  // const card = cards.find((x) => x.id === id);
-
-  // if (!card) {
-  //   return res.status(404).json({
-  //     status: "fail",
-  //     message: "Invalid ID",
-  //   });
-  // }
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      card,
-    },
+const deleteCard = async (req, res) => {
+  await Card.findByIdAndDelete(req.params.id, (err, data) => {
+    if (err) {
+      return res.status(400).json({
+        status: "fail",
+        message: err,
+      });
+    } else {
+      return res.status(200).json({
+        status: "success",
+        data: {
+          card: data,
+        },
+      });
+    }
   });
 };
 
