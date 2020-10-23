@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cards = require("./data/cards.json");
+const cors = require("cors");
 
 const cardRouter = require("./routes/cardRoutes");
 
@@ -16,6 +17,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use("/api/cards", cardRouter);
+
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send(cards);

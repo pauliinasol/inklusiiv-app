@@ -80,21 +80,36 @@ const updateCard = async (req, res) => {
 };
 
 const deleteCard = async (req, res) => {
-  await Card.findByIdAndDelete(req.params.id, (err, data) => {
-    if (err) {
-      return res.status(400).json({
-        status: "fail",
-        message: err,
-      });
-    } else {
-      return res.status(200).json({
-        status: "success",
-        data: {
-          card: data,
-        },
-      });
-    }
-  });
+  try {
+    await Card.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+      status: "success",
+      data: null,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err,
+    });
+  }
 };
+
+// const deleteCard = async (req, res) => {
+//   await Card.findByIdAndDelete(req.params.id, (err, data) => {
+//     if (err) {
+//       return res.status(400).json({
+//         status: "fail",
+//         message: err,
+//       });
+//     } else {
+//       return res.status(200).json({
+//         status: "success",
+//         data: {
+//           card: data,
+//         },
+//       });
+//     }
+//   });
+// };
 
 module.exports = { getAllCards, getCard, createCard, updateCard, deleteCard };
