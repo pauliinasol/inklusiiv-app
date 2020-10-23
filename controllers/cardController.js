@@ -79,20 +79,20 @@ const updateCard = async (req, res) => {
   }
 };
 
-const deleteCard = async (req, res) => {
-  try {
-    await Card.findByIdAndDelete(req.params.id);
-    res.status(200).json({
-      status: "success",
-      data: null,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: err,
-    });
-  }
-};
+// const deleteCard = async (req, res) => {
+//   try {
+//     await Card.findByIdAndDelete(req.params.id);
+//     res.status(200).json({
+//       status: "success",
+//       data: null,
+//     });
+//   } catch (err) {
+//     res.status(400).json({
+//       status: "fail",
+//       message: err,
+//     });
+//   }
+// };
 
 // const deleteCard = async (req, res) => {
 //   await Card.findByIdAndDelete(req.params.id, (err, data) => {
