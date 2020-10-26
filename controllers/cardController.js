@@ -112,4 +112,4 @@ const updateCard = async (req, res) => {
 //   });
 // };
 
-module.exports = { getAllCards, getCard, createCard, updateCard, deleteCard };
+module.exports = { getAllCards, getCard, createCard, updateCard };
