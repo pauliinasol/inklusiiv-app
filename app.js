@@ -21,7 +21,8 @@ app.use("/api/cards", cardRouter);
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send(cards);
+  // res.send(cards);
+  res.send({ name: "Inklusiiv Story Board", type: "API" });
 });
 
 module.exports = app;
