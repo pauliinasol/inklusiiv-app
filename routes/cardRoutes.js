@@ -3,8 +3,8 @@ const {
   getAllCards,
   getCard,
   createCard,
-  updateCard,
-  deleteCard,
+  // updateCard,
+  // deleteCard,
 } = require("../controllers/cardController");
 
 const router = express.Router();
@@ -16,6 +16,8 @@ router.param("id", (req, res, next, val) => {
 
 router.route("/").get(getAllCards).post(createCard);
 
-router.route("/:id").get(getCard).patch(updateCard).delete(deleteCard);
+// router.route("/:id").get(getCard).patch(updateCard).delete(deleteCard);
+
+router.route("/:id").get(getCard);
 
 module.exports = router;
