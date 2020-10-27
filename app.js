@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const cards = require("./data/cards.json");
 const cors = require("cors");
 
 const cardRouter = require("./routes/cardRoutes");
@@ -18,17 +17,9 @@ if (process.env.NODE_ENV === "development") {
 
 app.use("/api/cards", cardRouter);
 
-app.use(cors());
+// app.use(cors());
 
-res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-res.setHeader(
-  "Access-Control-Allow-Methods",
-  "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-);
-res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
-res.setHeader("Access-Control-Allow-Credentials", true);
-
-app.get("/", (req, res) => {
+app.get("/", cors(), (req, res) => {
   // res.send(cards);
   res.send({ name: "Inklusiiv Story Board", type: "API" });
 });

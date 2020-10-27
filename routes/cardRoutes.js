@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const {
   getAllCards,
   getCard,
@@ -8,6 +9,8 @@ const {
 } = require("../controllers/cardController");
 
 const router = express.Router();
+
+app.use(cors());
 
 router.param("id", (req, res, next, val) => {
   console.log(`Card id is: ${val}`);
