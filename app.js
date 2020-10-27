@@ -6,6 +6,7 @@ const cardRouter = require("./routes/cardRoutes");
 
 app.use(express.json());
 app.use(express.static(__dirname + "/public"));
+app.use(cors());
 
 if (process.env.NODE_ENV === "development") {
   app.use((req, res, next) => {
@@ -17,9 +18,7 @@ if (process.env.NODE_ENV === "development") {
 
 app.use("/api/cards", cardRouter);
 
-// app.use(cors());
-
-app.get("/", cors(), (req, res) => {
+app.get("/", (req, res) => {
   // res.send(cards);
   res.send({ name: "Inklusiiv Story Board", type: "API" });
 });
